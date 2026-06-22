@@ -29,10 +29,10 @@ def test_read_user_decrypts_data_when_needed(tmp_path):
     db = create_test_db(tmp_path)
     db.create_user(1, "Amir", "Khan", "Testvej", "12", "MitKode123")
 
-    # When: Brugeren læses fra databasen.
+    # When: Brugeren lï¿½ses fra databasen.
     user = db.read_user(1)
 
-    # Then: Data dekrypteres kun ved læsning.
+    # Then: Data dekrypteres kun ved lï¿½sning.
     assert user["first_name"] == "Amir"
     assert user["last_name"] == "Khan"
     assert user["address"] == "Testvej"
@@ -54,7 +54,7 @@ def test_authenticate_user_with_correct_password(tmp_path):
 
 def test_authenticate_user_with_wrong_password_fails(tmp_path):
     # Given: En bruger findes med et hashed password.
-    # Risiko hvis testen fejler: En angriber kan få adgang med forkert password.
+    # Risiko hvis testen fejler: En angriber kan fï¿½ adgang med forkert password.
     db = create_test_db(tmp_path)
     db.create_user(1, "Amir", "Khan", "Testvej", "12", "MitKode123")
 
@@ -88,18 +88,18 @@ def test_delete_user_removes_user_from_flat_file(tmp_path):
     # When: Brugeren slettes.
     deleted = db.delete_user(1)
 
-    # Then: Brugeren findes ikke længere.
+    # Then: Brugeren findes ikke lï¿½ngere.
     assert deleted is True
     assert db.read_user(1) is None
 
 
 def test_disabled_user_cannot_login(tmp_path):
     # Given: En bruger er deaktiveret.
-    # Risiko hvis testen fejler: Deaktiverede brugere kan stadig få adgang.
+    # Risiko hvis testen fejler: Deaktiverede brugere kan stadig fï¿½ adgang.
     db = create_test_db(tmp_path)
     db.create_user(1, "Amir", "Khan", "Testvej", "12", "MitKode123", enabled=False)
 
-    # When: Brugeren forsøger at logge ind.
+    # When: Brugeren forsï¿½ger at logge ind.
     result = db.authenticate(1, "MitKode123")
 
     # Then: Login afvises.
@@ -107,8 +107,8 @@ def test_disabled_user_cannot_login(tmp_path):
 
 
 def test_clear_decrypted_data_removes_plaintext_from_memory(tmp_path):
-    # Given: En bruger er læst og findes midlertidigt dekrypteret i hukommelsen.
-    # Risiko hvis testen fejler: Følsomme data kan blive liggende i hukommelsen.
+    # Given: En bruger er lï¿½st og findes midlertidigt dekrypteret i hukommelsen.
+    # Risiko hvis testen fejler: Fï¿½lsomme data kan blive liggende i hukommelsen.
     db = create_test_db(tmp_path)
     db.create_user(1, "Amir", "Khan", "Testvej", "12", "MitKode123")
 
@@ -116,7 +116,7 @@ def test_clear_decrypted_data_removes_plaintext_from_memory(tmp_path):
     user = db.read_user(1)
     cleared_user = db.clear_decrypted_data(user)
 
-    # Then: Følsomme felter er fjernet fra hukommelsen.
+    # Then: Fï¿½lsomme felter er fjernet fra hukommelsen.
     assert cleared_user["first_name"] is None
     assert cleared_user["last_name"] is None
     assert cleared_user["address"] is None
